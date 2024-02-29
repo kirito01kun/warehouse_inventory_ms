@@ -66,12 +66,38 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+import mongoengine
+
+# MongoDB settings
+MONGO_DB_NAME = 'personnes'
+MONGO_DB_HOST = 'localhost'
+MONGO_DB_PORT = 27017
+MONGO_DB_USERNAME = ''
+MONGO_DB_PASSWORD = ''
+
+# Connect to MongoDB
+mongoengine.connect(
+    db=MONGO_DB_NAME,
+    host=MONGO_DB_HOST,
+    port=MONGO_DB_PORT,
+    username=MONGO_DB_USERNAME,
+    password=MONGO_DB_PASSWORD
+)
+
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': '',  # Set this to an empty string since mongoengine doesn't require it
+        'NAME': 'personnes',  # Specify your MongoDB database name
+        'HOST': 'localhost',  # MongoDB host
+        'PORT': 27017,  # MongoDB port
+        'USERNAME': '',  # Optional: MongoDB username
+        'PASSWORD': '',  # Optional: MongoDB password
+        'AUTHENTICATION_SOURCE': 'admin'  # Optional: MongoDB authentication source
     }
 }
+
+
 
 
 # Password validation

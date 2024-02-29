@@ -1,3 +1,9 @@
-from django.db import models
+from mongoengine import Document, StringField, IntField
 
-# Create your models here.
+class Person(Document):
+    nom = StringField()
+    prenom = StringField()
+    age = IntField()
+    cp = IntField()
+
+    meta = {'collection': 'personnes'}  # Specify the collection name

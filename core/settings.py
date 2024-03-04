@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'api',
+    'mqtt',
     'warehouse',
     'inventory',
     'rest_framework',
@@ -69,7 +70,7 @@ WSGI_APPLICATION = 'core.wsgi.application'
 import mongoengine
 
 # MongoDB settings
-MONGO_DB_NAME = 'personnes'
+MONGO_DB_NAME = 'Harmony_PFE'
 MONGO_DB_HOST = 'localhost'
 MONGO_DB_PORT = 27017
 MONGO_DB_USERNAME = ''
@@ -88,7 +89,7 @@ mongoengine.connect(
 DATABASES = {
     'default': {
         'ENGINE': '',  # Set this to an empty string since mongoengine doesn't require it
-        'NAME': 'personnes',  # Specify your MongoDB database name
+        'NAME': 'Harmony_PFE',  # Specify your MongoDB database name
         'HOST': 'localhost',  # MongoDB host
         'PORT': 27017,  # MongoDB port
         'USERNAME': '',  # Optional: MongoDB username

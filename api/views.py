@@ -1,21 +1,52 @@
-from django.http import JsonResponse
-from .models import RackInventory
+from rest_framework import status
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from .models import Inventory
+from .InventorySerializers import InventorySerializer
 
-def api_home(request):
-    return JsonResponse({'message': 'Welcome to the API!'})
-
-def api_about(request):
-    return JsonResponse({'message': 'This is the about page of the API.'})
-
-
+@api_view(['GET'])
 def inventory_list(request):
-    levels = RackInventory.objects.all()
+    inventories = Inventory.objects.all()
+    serializer = InventorySerializer(inventories, many=True)
+    return Response(serializer.data)
 
-    # Format the data as JSON
-    data = [{'rack_number': level.rack_number,
-             'level_0': level.level_0,
-             'level_1': level.level_1,
-             'level_2': level.level_2,
-             'level_3': level.level_3} for level in levels]
+@api_view(['GET'])
+def inventory_detail(request, pk):
+    try:
+        inventory = Inventory.objects.get(pk=pk)
+    except Inventory.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    
+    serializer = InventorySerializer(inventory)
+    return Response(serializer.data)
 
-    return JsonResponse({'inventory': data})
+@api_view(['POST'])
+def inventory_create(request):
+    serializer = InventorySerializer(data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['PUT'])
+def inventory_update(request, pk):
+    try:
+        inventory = Inventory.objects.get(pk=pk)
+    except Inventory.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    
+    serializer = InventorySerializer(inventory, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['DELETE'])
+def inventory_delete(request, pk):
+    try:
+        inventory = Inventory.objects.get(pk=pk)
+    except Inventory.DoesNotExist:
+        return Response(status=status.HTTP_404_NOT_FOUND)
+    
+    inventory.delete()
+    return Response(status=status.HTTP_204_NO_CONTENT)

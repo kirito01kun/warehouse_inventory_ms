@@ -28,8 +28,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'api',
     'mqtt',
-    'warehouse',
     'inventory',
+    'rest_framework_mongoengine',
     'rest_framework',
 ]
 

@@ -1,9 +1,10 @@
 from django.urls import path
-from django.views.generic import TemplateView
 from . import views
 
 urlpatterns = [
-    path('', views.api_home, name='api-home'),
-    path('about/', views.api_about, name='api-about'),
-    path('inventory_list/', views.inventory_list, name='inventory_list'),
+    path('inventory/', views.inventory_list, name='inventory-list'),
+    path('inventory/<str:pk>/', views.inventory_detail, name='inventory-detail'),
+    path('create/', views.inventory_create, name='inventory-create'),
+    path('update/<str:pk>/', views.inventory_update, name='inventory-update'),
+    path('delete/<str:pk>/', views.inventory_delete, name='inventory-delete'),
 ]
